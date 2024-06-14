@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="hu">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Szobafoglalas</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <p><b>Panzió - szobafoglalás</b></p>
+        <div id="formStyle">
+            <!--Erkezes-->
+            <hr>
+            <div class="container">
+                <div id="arr">
+                    Érkezés dátuma:
+                </div>
+                <div id="right">
+                    <div class="checkbox-container">
+                        <input type="date" id="arrive">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div id="dep">
+                    Távozás dátuma:
+                </div>
+                <div id="right">
+                    <div class="checkbox-container">
+                        <input type="date" id="depart">
+                    </div>
+                </div>
+            </div>
+            
+            <hr>
+            <!--Szoba tipusa-->
+            <div class="container">
+                <div id="szoba">
+                    Szoba tipusa:
+                </div>
+                <div id="right">
+                    <div class="checkbox-container">
+                        <input type="radio" id="1" name="szoba" value="9000" onclick="fgvSzoba()">
+                        <label>Egyágyas - 9000 FT/éj</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="radio" id="2" name="szoba" value="15000" onclick="fgvSzoba()">
+                        <label>Kétágyas - 15000 FT/éj</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="radio" id="3" name="szoba" value="18000" onclick="fgvSzoba()">
+                        <label>Kétágyas 1 pótággyal - 18000 Ft/éj</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="radio" id="4" name="szoba" value="21000" onclick="fgvSzoba()">
+                        <label>Kétágyas 2 pótággyal - 18000 Ft/éj</label>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <!--Vendeg Info-->
+            <div class="container">
+                <div id="vszama">
+                    Vendégek száma :
+                </div>
+                <div id="right">
+                    <div class="checkbox-container">
+                        <input type="number" id="vendegSzam"  readonly>
+                        <label>fő</label>
+
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div id="age">
+                    Vendégek Életkora:
+                </div>
+                <div id="right">
+                    <div class="checkbox-container">
+                        <input type="text" id="1" name="eletkor" size="1" disabled>
+                        <label>év</label>
+                        <input type="text" id="2" name="eletkor" size="1" disabled>
+                        <label>év</label>
+                        <input type="text" id="3" name="eletkor" size="1" disabled>
+                        <label>év</label>
+                        <input type="text" id="4" name="eletkor" size="1" disabled>
+                        <label>év</label>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <!--Ellatas-->
+            <div class="container">
+                <div id="ellatas">
+                    Ellátás:
+                </div>
+                <div id="right">
+                    <div class="checkbox-container">
+                        <input type="radio" id="reggeli" name="ellatas" value="900">
+                        <label>Reggeli - 900 Ft/nap/fő</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="radio" id="felpanz" name="ellatas" value="2900">
+                        <label>Félpanzió - 2900 Ft/nap/fő</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="radio" id="teljes" name="ellatas" value="4900">
+                        <label>Teljes panzió - 4900 Ft/nap/fő</label>
+                    </div>
+                </div>
+            </div>
+
+            <!--Szolgaltatas-->
+            <hr>
+            <div class="container">
+                <div id="furdo">
+                    Fürdő szolgáltatások:
+                </div>
+                <div id="right">
+                    <div class="checkbox-container">
+                        <input type="checkbox" name="szolg" value="800">
+                        <label>Beltéri medencék - 800 Ft/nap/fő</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" name="szolg" value="800">
+                        <label>Kültéri medencék - 800 Ft/nap/fő</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" name="szolg" value="800">
+                        <label>Szauna belépő - 800 Ft/nap/fő</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" name="szolg" value="2000">
+                        <label>Teljes belépő - 2000 Ft/nap/fő</label>
+                    </div>
+                </div>
+            </div>
+            <!--Egyeb-->
+            <hr>
+            <div class="container">
+                <div id="other">
+                    Egyéb kérdes,kivánság :
+                </div>
+                <div id="right">
+                    <div class="checkbox-container">
+                        <textarea name="egyeb" id="egyeb" rows="5" cols="30"></textarea>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div id="warning" style="color: red;"></div>
+            <div id="fizetes"></div>
+        </div>
+        <br>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('input[name="szoba"]').forEach(radio => {
+                radio.addEventListener('change', fgvSzoba);
+            });
+
+            document.querySelectorAll('input[name="ellatas"]').forEach(radio => {
+                radio.addEventListener('change', fgvTeljesEll);
+            });
+
+            document.querySelectorAll('input[name="szolg"]').forEach(checkbox => {
+                checkbox.addEventListener('change', fgvTeljesEll);
+            });
+
+            document.getElementById('arrive').addEventListener('change', fgvTeljesEll);
+            document.getElementById('depart').addEventListener('change', fgvTeljesEll);
+        });
+
+        function fgvSzoba() {
+            const vendegSzamInput = document.getElementById('vendegSzam');
+            const ageInputs = document.querySelectorAll('input[name="eletkor"]');
+            const szoba = document.querySelector('input[name="szoba"]:checked').id;
+
+            let vendegSzam = 1;
+            if (szoba == 2) {
+                vendegSzam = 2;
+            } else if (szoba == 3) {
+                vendegSzam = 3;
+            } else if (szoba == 4) {
+                vendegSzam = 4;
+            }
+
+            vendegSzamInput.value = vendegSzam;
+            ageInputs.forEach((input, index) => {
+                input.disabled = index >= vendegSzam;
+                if (index >= vendegSzam) {
+                    input.value = '';
+                }
+            });
+
+            fgvTeljesEll();
+        }
+
+        function fgvTeljesEll() {
+            const szobaDij = document.querySelector('input[name="szoba"]:checked') ? parseInt(document.querySelector('input[name="szoba"]:checked').value) : 0;
+            const ellatasDij = document.querySelector('input[name="ellatas"]:checked') ? parseInt(document.querySelector('input[name="ellatas"]:checked').value) : 0;
+            const szolgDijElems = Array.from(document.querySelectorAll('input[name="szolg"]:checked'));
+            const szolgDij = szolgDijElems.reduce((sum, elem) => sum + parseInt(elem.value), 0);
+
+            const vendegSzam = parseInt(document.getElementById('vendegSzam').value) || 0;
+            const erkezesDatum = new Date(document.getElementById('arrive').value);
+            const tavozasDatum = new Date(document.getElementById('depart').value);
+            const napokSzama = (tavozasDatum - erkezesDatum) / (1000 * 60 * 60 * 24);
+
+            let totalSzobaDij = szobaDij * napokSzama;
+            let totalEllatasDij = 0;
+            let totalSzolgDij = 0;
+            let kedvezmenyOsszeg = 0;
+
+            document.querySelectorAll('input[name="eletkor"]').forEach((input, index) => {
+                if (index < vendegSzam && input.value) {
+                    const eletkor = parseInt(input.value);
+                    if (eletkor < 6) {
+                        totalEllatasDij += ellatasDij * 0.2 * napokSzama;
+                        totalSzolgDij += szolgDij * 0.2 * napokSzama;
+                        kedvezmenyOsszeg += (ellatasDij * 0.8 * napokSzama) + (szolgDij * 0.8 * napokSzama);
+                    } else {
+                        totalEllatasDij += ellatasDij * napokSzama;
+                        totalSzolgDij += szolgDij * napokSzama;
+                    }
+                }
+            });
+
+            const osszDij = totalSzobaDij + totalEllatasDij + totalSzolgDij;
+            
+            const warningDiv = document.getElementById('warning');
+            if (szolgDijElems.length === 3 && szolgDijElems.every(elem => parseInt(elem.value) === 800)) {
+                warningDiv.innerHTML = 'Figyelem! A Teljes belépő olcsóbb lehetőség: 2000 Ft/nap/fő';
+            }else {
+                warningDiv.innerHTML = '';
+            }
+            document.getElementById('fizetes').innerHTML = `Összköltség: ${osszDij} Ft<br>Éjszakák száma: ${napokSzama}<br>Kedvezmény összeg(6 éves kor alatt): ${kedvezmenyOsszeg} Ft`;
+        }
+        </script>
+    </body>
+</html>

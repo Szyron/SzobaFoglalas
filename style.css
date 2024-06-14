@@ -1,0 +1,79 @@
+html,body{
+    height: 100%;
+}
+html{
+    display: table;
+    margin: auto;
+}
+
+body{
+    display: table-cell;
+    vertical-align: middle;
+    background-color: #fffff3;
+    color: #1922fb;
+}
+
+#formStyle{
+    background-color: #f0f0f0;
+    text-align: center;
+    padding-top: 10px;
+    width: 680px;
+}
+
+p{
+    text-align: center;
+    font-size: 50px;
+}
+hr{
+    display: block;
+    margin: 10px 100px ;
+}
+.container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 20px;
+}
+#furdo {
+    margin: 30px 40px 0 80px;
+}
+#ellatas{
+    margin: 15px 126px 0 80px;
+}
+#szoba{
+    margin: 30px 85px 0 80px;
+}
+#arr{
+    margin: 0px 70px 0 80px;
+}
+#dep{
+    margin: 0px 68px 0 80px;
+}
+#vszama{
+    margin: 0px 61px 0 80px;
+}
+#age{
+    margin: 0px 51px 0 80px;
+}
+#other{
+    margin: 30px 80px 0 80px;
+}
+
+#right {
+    display: flex;
+    flex-direction: column;
+}
+.checkbox-container {
+    display: flex;
+    align-items: center; 
+}
+.checkbox-container label {
+    margin-left: 8px;
+}
+
+input[type='number']{
+    width: 30px;
+} 
+
+
+
