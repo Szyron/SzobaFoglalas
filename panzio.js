@@ -1,27 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll('input[name="szoba"]').forEach(radio => {
-        radio.addEventListener('change', fgvSzoba);
+    document.getElementById('calculateBtn').addEventListener('click', function() {
+        if (validateInputs()) {
+            fgvTeljesEll();
+        }
     });
-
-    document.querySelectorAll('input[name="ellatas"]').forEach(radio => {
-        radio.addEventListener('change', fgvTeljesEll);
-    });
-
-    document.querySelectorAll('input[name="szolg"]').forEach(checkbox => {
-        checkbox.addEventListener('change', fgvTeljesEll);
-    });
-
-    document.getElementById('arrive').addEventListener('change', fgvTeljesEll);
-    document.getElementById('depart').addEventListener('change', fgvTeljesEll);
 });
 
 function fgvSzoba() {
     const vendegSzamInput = document.getElementById('vendegSzam');
     const ageInputs = document.querySelectorAll('input[name="eletkor"]');
     const szoba = document.querySelector('input[name="szoba"]:checked').id;
-
     let vendegSzam = szoba;
-
     vendegSzamInput.value = vendegSzam;
     ageInputs.forEach((input, index) => {
         input.disabled = index >= vendegSzam;
@@ -29,8 +18,6 @@ function fgvSzoba() {
             input.value = '';
         }
     });
-
-    fgvTeljesEll();
 }
 function mezoErtek(mezoNev){
     return document.querySelector('input[name="' + mezoNev + '"]:checked') ? parseInt(document.querySelector('input[name="'+ mezoNev +'"]:checked').value):0
@@ -41,11 +28,14 @@ function fgvTeljesEll() {
     const ellatasDij = mezoErtek('ellatas') //document.querySelector('input[name="ellatas"]:checked') ? parseInt(document.querySelector('input[name="ellatas"]:checked').value) : 0;
     const szolgDijElems = Array.from(document.querySelectorAll('input[name="szolg"]:checked'));
     const szolgDij = szolgDijElems.reduce((sum, elem) => sum + parseInt(elem.value), 0);
-
     const vendegSzam = parseInt(document.getElementById('vendegSzam').value) || 0;
     const erkezesDatum = new Date(document.getElementById('arrive').value);
     const tavozasDatum = new Date(document.getElementById('depart').value);
-    const napokSzama = (tavozasDatum - erkezesDatum) / (1000 * 60 * 60 * 24);
+    const napokSzama = (tavozasDatum - erkezesDatum) / (1000 * 60 * 60 * 24)
+
+    if (napokSzama < 1) {
+        alert('Kerlek valtoztass a foglalasi idoponton')
+    }
 
     let totalSzobaDij = szobaDij * napokSzama;
     let totalEllatasDij = 0;
@@ -73,4 +63,46 @@ function fgvTeljesEll() {
         return szolgDijElems.length === 3 && szolgDijElems.every(elem => parseInt(elem.value) === 800);
     }
     document.getElementById('fizetes').innerHTML = `Összköltség: ${osszDij} Ft<br>Éjszakák száma: ${napokSzama}<br>Kedvezmény összeg(6 éves kor alatt): ${kedvezmenyOsszeg} Ft`;
+}
+
+function validateInputs() {
+    const szobaChecked = document.querySelector('input[name="szoba"]:checked');
+    const ellatasChecked = document.querySelector('input[name="ellatas"]:checked');
+    const erkezesDatum = document.getElementById('arrive').value;
+    const tavozasDatum = document.getElementById('depart').value;
+    const vendegSzam = parseInt(document.getElementById('vendegSzam').value) || 0;
+    const ageInputs = Array.from(document.querySelectorAll('input[name="eletkor"]')).slice(0, vendegSzam);
+
+    if (!szobaChecked || !ellatasChecked || !erkezesDatum || !tavozasDatum) {
+        document.getElementById('warningEmpty').innerHTML = `Kérjük, töltse ki az összes kötelező mezőt!`
+        resetForm();
+        return false;
+    }
+    
+    if (ageInputs.some(input => !input.value)) {
+        document.getElementById('warningEmpty').innerHTML = `Kérjük, adja meg az összes vendég életkorát!`
+        resetForm();
+        return false;
+    }
+    let napokSzama = (new Date(tavozasDatum) - new Date(erkezesDatum)) / (1000 * 60 * 60 * 24);
+    if (napokSzama < 1) {
+        alert("Távozás dátuma nem lehet korábbi, mint az érkezés dátuma.");
+        resetForm();
+        return false;
+    }
+
+    return true;
+}
+
+function resetForm() {
+    document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+    document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+    document.querySelectorAll('input[type="date"]').forEach(input => input.value = '');
+    document.getElementById('vendegSzam').value = '';
+    document.querySelectorAll('input[name="eletkor"]').forEach(input => {
+        input.value = '';
+        input.disabled = true;
+    });
+    document.getElementById('warning').innerHTML = '';
+    document.getElementById('fizetes').innerHTML = '';
 }
