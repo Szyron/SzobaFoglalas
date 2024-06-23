@@ -33,15 +33,10 @@ function fgvTeljesEll() {
     const tavozasDatum = new Date(document.getElementById('depart').value);
     const napokSzama = (tavozasDatum - erkezesDatum) / (1000 * 60 * 60 * 24)
 
-    if (napokSzama < 1) {
-        alert('Kerlek valtoztass a foglalasi idoponton')
-    }
-
     let totalSzobaDij = szobaDij * napokSzama;
     let totalEllatasDij = 0;
     let totalSzolgDij = 0;
     let kedvezmenyOsszeg = 0;
-
     document.querySelectorAll('input[name="eletkor"]').forEach((input, index) => {
         if (index < vendegSzam && input.value) {
             const eletkor = parseInt(input.value);
@@ -74,13 +69,13 @@ function validateInputs() {
     const ageInputs = Array.from(document.querySelectorAll('input[name="eletkor"]')).slice(0, vendegSzam);
 
     if (!szobaChecked || !ellatasChecked || !erkezesDatum || !tavozasDatum) {
-        document.getElementById('warningEmpty').innerHTML = `Kérjük, töltse ki az összes kötelező mezőt!`
+        alert("Kérjük, töltse ki az összes kötelező mezőt!")
         resetForm();
         return false;
     }
     
     if (ageInputs.some(input => !input.value)) {
-        document.getElementById('warningEmpty').innerHTML = `Kérjük, adja meg az összes vendég életkorát!`
+        alert("Kérjük, adja meg az összes vendég életkorát!")
         resetForm();
         return false;
     }
