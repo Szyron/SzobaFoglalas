@@ -5,18 +5,18 @@ const ServiceContext = createContext();
 
 export const ServiceProvider = ({ children }) => {
   const [refresh, setRefresh] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [roomTypes, setRoomTypes] = useState([]);
 
   const update = () => {
     setRefresh(prev => !prev)
   }
 
-/*   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/category`)
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BASE_URL}/room-types`)
       .then(res => res.json())
-      .then(adat => setCategories(adat.categories))
+      .then(data => setRoomTypes(data))
       .catch(err => alert(err));
-  }, [refresh]); */
+  }, [refresh]);
 
 
 
@@ -44,8 +44,8 @@ export const ServiceProvider = ({ children }) => {
   return <ServiceContext.Provider value={{
     update,
     refresh,
-    categories,
-    setCategories,
+    roomTypes,
+    setRoomTypes,
     backendOperation,
   }}>{children}</ServiceContext.Provider>
 

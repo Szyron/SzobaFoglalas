@@ -11,6 +11,7 @@ import Register from './components/Auth/Register'
 import BookingsList from './components/Services/BookingsList'
 import { ServiceProvider } from './components/Context/ServiceContext'
 import NewRoomType from './components/Room/NewRoomType'
+import RoomTypesList from './components/Room/RoomTypesList';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/register" element={<Register/>}/>
             <Route path="/bookings" element={<BookingsList/>}/>
             <Route path="/new-room-type" element={<NewRoomType/>}/>
+            <Route path="/room-types" element={<RoomTypesList/>}/>
             <Route path="*" element={<Navigate to="/"/>}/>
           </Routes>
           <Footer/>
