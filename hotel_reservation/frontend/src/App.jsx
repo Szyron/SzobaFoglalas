@@ -12,6 +12,8 @@ import BookingsList from './components/Services/BookingsList'
 import { ServiceProvider } from './components/Context/ServiceContext'
 import NewRoomType from './components/Room/NewRoomType'
 import RoomTypesList from './components/Room/RoomTypesList';
+import NewMealPlan from './components/Meal/NewMealPlan'
+import MealPlansList from './components/Meal/MealPlansList';
 
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
             <Route path="/bookings" element={<BookingsList/>}/>
             <Route path="/new-room-type" element={<NewRoomType/>}/>
             <Route path="/room-types" element={<RoomTypesList/>}/>
+            <Route path="/new-meal-plan" element={<NewMealPlan/>}/>
+            <Route path="/meal-plans" element={<MealPlansList/>}/>
             <Route path="*" element={<Navigate to="/"/>}/>
           </Routes>
           <Footer/>
