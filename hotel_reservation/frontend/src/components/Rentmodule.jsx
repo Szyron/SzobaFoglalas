@@ -1,8 +1,22 @@
 import 'cally'
+import { useState, useContext } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import ServiceContext from './Context/ServiceContext'
+
 
 function Rentmodule() {
 
-    
+    const navigate = useNavigate();
+    const { backendOperation } = useContext(ServiceContext);
+
+
+    const { state } = useLocation();
+
+    let title = "Booking Form";
+    let method = "POST";
+    let header = { "Content-Type": "application/json" };
+
+
 
 
 
